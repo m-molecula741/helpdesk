@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "helpdesk"
+version = "0.1.0"
+description = "help desk system"
+authors = ["None"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.1"
+django = "^5.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
