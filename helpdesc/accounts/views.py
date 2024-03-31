@@ -2,10 +2,13 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import View
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic.edit import CreateView
 
 
 class HomeView(View):
+     """Отображение домашней страницы"""
      def get(self,request):
         return render(request, 'accounts/home.html')
 
@@ -21,4 +24,12 @@ class Login(LoginView):
     
 
 class Logout(LogoutView):
+    """Выход"""
     template_name = 'accounts/login.html'
+
+
+class RegisterView(CreateView):
+    """Регистрация пользователя"""
+    template_name = 'accounts/register.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
