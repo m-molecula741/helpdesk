@@ -7,12 +7,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import CreateView
 
 
-class HomeView(View):
-     """Отображение домашней страницы"""
-     def get(self,request):
-        return render(request, 'accounts/home.html')
-
-
 class Login(LoginView):
     """Авторизация"""
     form_class = AuthenticationForm
