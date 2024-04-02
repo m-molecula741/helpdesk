@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Доступные тикеты</h2>
+{% for ticket in tickets %}
+<h3><a href="{% url 'detail_ticket' ticket.id %}">{{ ticket.title }}</a></h3>
+    <p>создатель: {{ ticket.created_by }}</p>
+    <p>исполнитель: {{ ticket.assigned_to }}</p>
+    <!-- Дополнительная информация о тикете -->
+    <br>
+    <p></p>
+{% endfor %}
+
+{% endblock %}

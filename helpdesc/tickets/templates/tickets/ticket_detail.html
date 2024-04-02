@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> Подробная информация по тикету:</h2>
+<h3>{{ ticket.title }}</h3>
+    <p>{{ ticket.description }}</p>
+    <p>статус: {{ ticket.status }}</p>
+    <p>приоритет: {{ ticket.priority }}</p>
+    <p>создатель: {{ ticket.created_by }}</p>
+    <p>исполнитель: {{ ticket.assigned_to }}</p>
+    <!-- Дополнительная информация о тикете -->
+{% endblock %}

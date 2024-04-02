@@ -11,6 +11,10 @@
 
 {% if user.is_authenticated %}
 <h1>HOME PAGE</h1>
+
+{% block content %}
+{% endblock %}
+
 <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Logout</button>
