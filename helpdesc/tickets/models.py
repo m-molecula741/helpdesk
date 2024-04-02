@@ -3,18 +3,19 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
-class Ticket(models.Model):
-    """Тикеты"""
-    class Status(models.TextChoices):
-        OPEN = 'open', _('Open')
-        IN_PROGRESS = 'in_progress', _('In Progress')
-        CLOSED = 'closed', _('Closed')
+class Status(models.TextChoices):
+    OPEN = 'open', _('Open')
+    IN_PROGRESS = 'in_progress', _('In Progress')
+    CLOSED = 'closed', _('Closed')
 
-    class Priority(models.IntegerChoices):
-        LOW = 3, _("Low")
-        MEDIUM = 2, _("Medium")
-        HIGH = 1, _("High")
-    
+class Priority(models.IntegerChoices):
+    LOW = 3, _("Low")
+    MEDIUM = 2, _("Medium")
+    HIGH = 1, _("High")
+
+
+class Ticket(models.Model):
+    """Тикеты"""   
     title = models.CharField(max_length=200)
     description = models.TextField("Описание")
     status = models.CharField(

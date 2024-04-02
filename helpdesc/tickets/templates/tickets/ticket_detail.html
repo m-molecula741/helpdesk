@@ -4,9 +4,34 @@
 <h2> Подробная информация по тикету:</h2>
 <h3>{{ ticket.title }}</h3>
     <p>{{ ticket.description }}</p>
-    <p>статус: {{ ticket.status }}</p>
-    <p>приоритет: {{ ticket.priority }}</p>
+    <p>статус: {{ ticket.get_status_display }}</p>
+    <p>приоритет: {{ ticket.get_priority_display }}</p>
     <p>создатель: {{ ticket.created_by }}</p>
     <p>исполнитель: {{ ticket.assigned_to }}</p>
     <!-- Дополнительная информация о тикете -->
+
+    <ul>
+        {% for comment in ticket.comments.all %}
+            <li>
+                <strong>{{ comment.author }}:</strong> {{ comment.content }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if ticket.get_status_display == 'Closed' %}
+    <h2>Тикет закрыт!</h2>
+    {% else %}
+    <form method="post" action="{% url 'create_comment' pk=ticket.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Comment</button>
+    </form>
+    <p></p>
+    
+    <form method="post" action="{% url 'close_ticket' ticket.id %}">
+        {% csrf_token %} 
+        <button type="submit">Закрыть токен</button>
+    </form>
+    {% endif %}
+
 {% endblock %}
