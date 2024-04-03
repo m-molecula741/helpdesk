@@ -5,24 +5,15 @@
 <head>
     <meta charset="utf-8" />
     <title>Home page</title>
+    <link href="{% static 'assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/headers/">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
 </head>
 <body>
 {% include "header.html"  %}
 
-{% if user.is_authenticated %}
-<h1>HOME PAGE</h1>
-
 {% block content %}
 {% endblock %}
-
-<form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
-
-{% else %}
-ВЫ не авторизованы
-{% endif %}
 
 </body>
 </html>

@@ -1,5 +1,38 @@
-<form method="post" action="{% url 'register' %}">
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+<br>
+
+<div class="container">
+    <div class="text-center mb-4">
+        <img src="{% static 'assets/brand/bootstrap-logo.svg' %}" alt="" width="72" height="57">
+    </div>
+
+  <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
+  
+  <form action="{% url 'register' %}" method="post" class="w-25 mx-auto"> <!-- Добавлены классы w-25 и mx-auto -->
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+    
+    {% for field in form %}
+    <div class="form-floating mb-3">
+      
+      {% if field.label == "Username" %}
+        <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="{{ field.name }}">
+      {% elif field.label == "Password" %}
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="{{ field.name }}">
+      {% elif field.label %}
+        <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password" name="{{ field.name }}">
+      {% endif %}
+      <label for="floatingInput">{{ field.label }}</label>
+    </div>
+    {% endfor %}
+
+    <div class="mb-3">
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

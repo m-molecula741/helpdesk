@@ -1,21 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Доступные тикеты</h2>
 
-{% if is_support %}
-<p>Вы относитесь к группе 'support'</p>
-{% else %}
-<a href="{% url 'create_ticket' %}">создать тикет +</a>
-{% endif %}
+<br>
 
-{% for ticket in tickets %}
-<h3><a href="{% url 'detail_ticket' ticket.id %}">{{ ticket.title }}</a></h3>
-    <p>создатель: {{ ticket.created_by }}</p>
-    <p>исполнитель: {{ ticket.assigned_to }}</p>
-    <!-- Дополнительная информация о тикете -->
-    <br>
-    <p></p>
-{% endfor %}
+<div class="container overflow-hidden">
+    <div class="row gy-5 mb-4">
+        {% for ticket in object_list %}
+            <div class="col-6">
+                <div class="card rounded-pill bg-light shadow">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Проблема: {{ ticket.title }}</h5>
+                        <p class="card-text">
+                            Создатель: {{ ticket.created_by }}<br>
+                            Исполнитель: {{ ticket.assigned_to }}
+                        </p>
+                        <a href="{% url 'detail_ticket' ticket.id %}" class="btn btn-secondary">Детальная информация</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+{% include "tickets/ticket_pagination.html"  %}
 
 {% endblock %}

@@ -1,37 +1,125 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2> Подробная информация по тикету:</h2>
-<h3>{{ ticket.title }}</h3>
-    <p>{{ ticket.description }}</p>
-    <p>статус: {{ ticket.get_status_display }}</p>
-    <p>приоритет: {{ ticket.get_priority_display }}</p>
-    <p>создатель: {{ ticket.created_by }}</p>
-    <p>исполнитель: {{ ticket.assigned_to }}</p>
-    <!-- Дополнительная информация о тикете -->
+<div class="container mt-4 pl-0">
+    <h2>Подробная информация по тикету:</h2>
+    <!-- Весь ваш существующий код здесь -->
+</div>
 
-    <ul>
-        {% for comment in ticket.comments.all %}
-            <li>
-                <strong>{{ comment.author }}:</strong> {{ comment.content }}
-            </li>
-        {% endfor %}
-    </ul>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header d-flex justify-content-between">
+                    <strong>{{ ticket.title }}</strong>
+                    {% if ticket.get_status_display == 'Closed' %}
+                        <h5>Тикет закрыт!</h5>
+                    {% else %}
+                        <form method="post" action="{% url 'close_ticket' ticket.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link">Закрыть тикет</button>
+                        </form>
+                    {% endif %}
+                </div>
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            <strong>Описание:</strong>
+                        </div>
+                        <div class="col-6 text-left">
+                            {{ ticket.description }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            <strong>Статус:</strong>
+                        </div>
+                        <div class="col-6 text-left">
+                            {{ ticket.get_status_display }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            <strong>Приоритет:</strong>
+                        </div>
+                        <div class="col-6 text-left">
+                            {{ ticket.get_priority_display }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            <strong>Создатель:</strong>
+                        </div>
+                        <div class="col-6 text-left">
+                            {{ ticket.created_by }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-right">
+                            <strong>Исполнитель:</strong>
+                        </div>
+                        <div class="col-6 text-left">
+                            {{ ticket.assigned_to }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Тикет создан {{ ticket.created_at }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    Добавить комментарий
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'create_comment' pk=ticket.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {% for field in form %}
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Введите комментарий" name="{{ field.name }}">
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <button class="btn btn-secondary" type="submit">Добавить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    {% if ticket.get_status_display == 'Closed' %}
-    <h2>Тикет закрыт!</h2>
-    {% else %}
-    <form method="post" action="{% url 'create_comment' pk=ticket.id %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create Comment</button>
-    </form>
-    <p></p>
-    
-    <form method="post" action="{% url 'close_ticket' ticket.id %}">
-        {% csrf_token %} 
-        <button type="submit">Закрыть токен</button>
-    </form>
-    {% endif %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+            </svg> 
+            Комментарии: 
+            <ul class="list-group text-center">
+                {% for comment in ticket.comments.all %}
+                <br>
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                                </svg>
+                            </span>
+                            <strong>{{ comment.author }}:</strong> <span style="padding-left: 10px;">{{ comment.content }}</span>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
 
 {% endblock %}
