@@ -26,6 +26,7 @@
     </symbol>
   </svg>
 
+
 <header>
     <div class="px-3 py-2 bg-dark text-white">
       <div class="container">
@@ -55,46 +56,52 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+            <a href="#" id="knowledgeBaseLink" class="nav-link text-white align-items-center">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
-                Knowledge base
-              </a>
+                Knowledge
+            </a> 
             </li>
+    
+
             {% endif %}
 
             {% if user.is_authenticated %}
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
-                {{ user.username }}
-              </a>
+            <li id="profileDropdown" class="position-relative">
+                <a href="#" class="nav-link text-white">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
+                    {{ user.username }}
+                </a>
+                <span id="profileDropdownMenu" class="dropdown-menu position-absolute t-none">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-light text-dark me-2">Logout</button>
+                    </form>
+                    {% endif %}
+                </span>
             </li>
-            {% endif %}
+            
           </ul>
         </div>
       </div>
     </div>
     <div class="px-3 py-2 border-bottom mb-3">
-      <div class="container d-flex flex-wrap justify-content-center">
-        <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
-
-        <div class="text-end">
+      <div class="container d-flex flex-wrap justify-content-end">
         {% if user.is_authenticated %}
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-light text-dark me-2">Logout</button>
-            </form>
-        {% else %}
+        <ul id="topicsContainer" class="d-none position-relative"></ul>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+        <div class="text-end">
           <a href="{% url 'login' %}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
           <a href="{% url 'register' %}"><button type="button" class="btn btn-primary">Sign-up</button></a>
         {% endif %}
         </div>
 
-
       </div>
     </div>
   </header>
 
+
   <script src="{% static 'assets/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/themes.js' %}"></script>
+  <script src="{% static 'js/header.js' %}"></script>

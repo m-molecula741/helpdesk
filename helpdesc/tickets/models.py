@@ -36,3 +36,16 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Theme(models.Model):
+    """Темы"""
+    name = models.CharField(max_length=60)
+
+
+class KnowledgeBase(models.Model):
+    """База знаний"""
+    title = models.CharField(max_length=200)
+    solution = models.TextField("Решение")
+    theme = models.ForeignKey(Theme, on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

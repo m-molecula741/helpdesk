@@ -1,6 +1,27 @@
-<form method="post" action="{% url 'create_ticket' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Ticket</button>
-  </form>
-  
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Создание тикета</h2>
+    
+    <div class="d-flex justify-content-center align-items-center">
+      <form method="post" action="{% url 'create_ticket' %}" class="w-50 mx-auto"> 
+        {% csrf_token %}
+        <div class="form-group mb-3"> 
+            {% for field in form %}
+                {% if field.label == "Title" %}
+                    <input type="text" class="form-control mb-3" id="floatingInput" placeholder="Наименование" name="{{ field.name }}"> <!-- Добавлен класс mb-3 для отступа снизу -->
+                {% elif field.label == 'Описание' %}
+                    <input type="text" class="form-control form-control-lg mb-3" id="floatingInput" placeholder="{{ field.label }}" name="{{ field.name }}"> <!-- Добавлен класс mb-3 для отступа снизу -->
+                {% else %}
+                    <input type="text" class="form-control mb-3" id="floatingInput" placeholder="{{ field.label }}" name="{{ field.name }}"> <!-- Добавлен класс mb-3 для отступа снизу -->
+                {% endif %}
+            {% endfor %}
+        </div>
+        <button class="btn btn-secondary mt-3">Создать тикет</button> <!-- Оставляем отступ сверху после всех полей ввода -->
+    </form>
+    
+    
+    </div>
+</div>
+{% endblock %}

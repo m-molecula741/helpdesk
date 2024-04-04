@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center">
+    <div>
+      <h5>{{ theme.name }}</h5>
+    </div>
+  </div>
+  
+
+<div class="container mt-4">
+    <div class="row">
+        {% for know in object_list %}
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Проблема: {{ know.title }}</h5>
+                        <p class="card-text">Решение: {{ know.solution }}</p>
+                        <p class="card-text">Кто решил: {{ know.author }}</p>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:2 %}
+                </div><div class="row">
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% include "tickets/ticket_pagination.html" %}
+
+{% endblock %}

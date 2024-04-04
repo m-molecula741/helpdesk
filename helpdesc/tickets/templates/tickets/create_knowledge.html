@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Создание отчета</h2>
+    
+    <div class="d-flex justify-content-center align-items-center">
+      <form method="post" action="{% url 'create_knowledge' %}" class="w-50 mx-auto"> 
+        {% csrf_token %}
+        <div class="form-group mb-3"> 
+            <label for="id_title">Проблема:</label>
+            <input id="id_title" type="text" class="form-control mb-3" placeholder="Наименование" name="title" value="{{ form.title.value }}">
+            
+            <label for="id_solution">Решение:</label>
+            <input id="id_solution" type="text" class="form-control form-control-lg mb-3" placeholder="Решение" name="solution" value="{{ form.solution.value }}">
+            
+            <label for="id_theme">Выбрать тему:</label>
+            <select id="id_theme" name="theme">
+                {% for theme in themes %}
+                    <option value="{{ theme.id }}">{{ theme.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary mt-3">Создать отчет</button>
+    </form>
+    </div>
+</div>
+{% endblock %}
