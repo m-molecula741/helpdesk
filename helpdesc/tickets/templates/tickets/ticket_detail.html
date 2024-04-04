@@ -14,11 +14,21 @@
                     <strong>{{ ticket.title }}</strong>
                     {% if ticket.get_status_display == 'Closed' %}
                         <h5>Тикет закрыт!</h5>
-                    {% else %}
+                    {% elif ticket.get_status_display == 'Open' and is_support %}
+                        <form action="{% url 'inprogress' ticket.id %}" method="post">
+                            {% csrf_token %}
+                          <button class="btn btn-link" type="submit">В работу</button>
+                        </form>
+                    {% elif ticket.get_status_display == 'In Progress' and is_support %}
                         <form method="post" action="{% url 'close_ticket' ticket.id %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-link">Закрыть тикет</button>
                         </form>
+                    {% elif not is_support %}
+                    <form method="post" action="{% url 'close_ticket' ticket.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link">Закрыть тикет</button>
+                    </form>
                     {% endif %}
                 </div>
                 

@@ -58,6 +58,7 @@ class TicketDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['is_support'] = self.request.user.groups.filter(name='tech_support')
         context['form'] = CommentForm()
         return context
 
@@ -147,3 +148,10 @@ class KnowledgesListView(ListView):
         context = super().get_context_data(**kwargs)
         context['theme'] = Theme.objects.get(id=self.request.GET.get("id"))
         return context
+
+
+class ChangeStatusToInProgress(View):
+    """Взять тикет в работу"""
+    def post(self, request, pk):
+        is_updated = Ticket.objects.filter(id=pk).update(status=Status.IN_PROGRESS)
+        return redirect(reverse('tickets'))

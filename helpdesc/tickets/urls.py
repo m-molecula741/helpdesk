@@ -10,5 +10,6 @@ urlpatterns = [
     path('create/knowledge/', views.CreateKnowledge.as_view(), name="create_knowledge"),
     path('comment/<int:pk>/', views.CreateComment.as_view(), name="create_comment"),
     path('close/<int:pk>/', views.CloseTicket.as_view(), name="close_ticket"),
+    path('inprogress/<int:pk>/', views.ChangeStatusToInProgress.as_view(), name="inprogress"),
     path('detail/<int:pk>/', views.TicketDetail.as_view(), name="detail_ticket"),
 ]
