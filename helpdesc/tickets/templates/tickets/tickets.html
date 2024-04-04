@@ -4,7 +4,7 @@
 
 <div class="container d-flex justify-content-center align-items-center">
     <div>
-      <h5>Доступные тикеты</h5>
+      <h3>Доступные тикеты</h3>
     </div>
     <div class="ms-4"> <!-- Отступ между элементами справа (0.5rem) -->
       {% if not is_support %}
@@ -19,28 +19,60 @@
 
 <div class="container overflow-hidden">
     <div class="row gy-5 mb-4">
-        {% for ticket in object_list %}
-            <div class="col-6">
-                <div class="card rounded-pill bg-light shadow">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Проблема: {{ ticket.title }}</h5>
-                        <p class="card-text">
-                            Создатель: {{ ticket.created_by }}<br>
-                            Исполнитель: {{ ticket.assigned_to }}
-                        </p>
-                        <a href="{% url 'detail_ticket' ticket.id %}" class="btn btn-secondary">Детальная информация</a>
+        <div class="col">
+            <h5>Open</h5>
+            {% for ticket in object_list %}
+                {% if ticket.status == "open" %}
+                    <div class="card bg-light shadow mb-4">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Проблема: {{ ticket.title }}</h5>
+                            <p class="card-text">
+                                Создатель: {{ ticket.created_by }}<br>
+                                Исполнитель: {{ ticket.assigned_to }}
+                            </p>
+                            <a href="{% url 'detail_ticket' ticket.id %}" class="btn btn-secondary">Детальная информация</a>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col">
+            <h5>In Progress</h5>
+            {% for ticket in object_list %}
+                {% if ticket.status == "in_progress" %}
+                    <div class="card bg-light shadow mb-4">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Проблема: {{ ticket.title }}</h5>
+                            <p class="card-text">
+                                Создатель: {{ ticket.created_by }}<br>
+                                Исполнитель: {{ ticket.assigned_to }}
+                            </p>
+                            <a href="{% url 'detail_ticket' ticket.id %}" class="btn btn-secondary">Детальная информация</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col">
+            <h5>Closed</h5>
+            {% for ticket in object_list %}
+                {% if ticket.status == "closed" %}
+                    <div class="card bg-light shadow mb-4">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Проблема: {{ ticket.title }}</h5>
+                            <p class="card-text">
+                                Создатель: {{ ticket.created_by }}<br>
+                                Исполнитель: {{ ticket.assigned_to }}
+                            </p>
+                            <a href="{% url 'detail_ticket' ticket.id %}" class="btn btn-secondary">Детальная информация</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 
 
-
-
-
-
-{% include "tickets/ticket_pagination.html"  %}
 
 {% endblock %}
