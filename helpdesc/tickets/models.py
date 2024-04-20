@@ -30,6 +30,10 @@ class Ticket(models.Model):
     assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='assigned_tickets', null=True, blank=True)
 
 
+    def __str__(self):
+        return self.title
+    
+
 class Comment(models.Model):
     """Коммменты"""
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='comments')
@@ -37,10 +41,16 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return f"comment to {self.ticket} ticket"
+
 
 class Theme(models.Model):
     """Темы"""
     name = models.CharField(max_length=60)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class KnowledgeBase(models.Model):
@@ -49,3 +59,17 @@ class KnowledgeBase(models.Model):
     solution = models.TextField("Решение")
     theme = models.ForeignKey(Theme, on_delete=models.CASCADE, null=False)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class New(models.Model):
+    """Новости"""
+    title = models.CharField(max_length=200)
+    content = models.TextField("Контент")
+    image = models.ImageField("Изображение", upload_to="news/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.title

@@ -1,9 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center">
-    <div>
-      <h3>HELP DESK SYSTEM</h3>
+  <div class="container">
+    <div class="d-flex justify-content-center align-items-center">
+      <div>
+        <h3>HELP DESK SYSTEM</h3>
+      </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for new in news %}
+      <div class="col">
+        <div class="card">
+          <img src="{{ new.image.url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ new.title }}</h5>
+            <p class="card-text">{{ new.content }}</p>
+            <hr>
+            <p class="card-text"><small class="text-muted">Дата публикации: {{ new.created_at }}</small></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

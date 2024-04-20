@@ -115,3 +115,5 @@ dbdata
 /recommendations
 
 .DS_Store
+
+media/news/*
